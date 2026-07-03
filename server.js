@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const chatRouter = require('./src/routes/chat');
+const configRouter = require('./src/routes/config');
 const adminRouter = require('./src/routes/admin');
 
 const app = express();
@@ -14,6 +15,7 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 app.use('/api/chat', chatRouter);
+app.use('/api/config', configRouter);
 app.use('/api/admin', adminRouter);
 
 app.use((err, req, res, next) => {
