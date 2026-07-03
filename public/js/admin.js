@@ -1,6 +1,12 @@
 (function () {
   const root = document.getElementById('admin-root');
 
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
   function renderLogin(errorText) {
     root.innerHTML = `
       <div class="card">
@@ -35,12 +41,16 @@
           <input id="maintenance-toggle" type="checkbox" ${status.maintenance ? 'checked' : ''} />
         </div>
         <label>Message de maintenance
-          <textarea id="maintenance-message" rows="3">${status.maintenanceMessage}</textarea>
+          <textarea id="maintenance-message" rows="3">${escapeHtml(status.maintenanceMessage)}</textarea>
         </label>
         <label>Limite de messages / visiteur / heure
           <input id="rate-limit" type="number" min="1" value="${status.maxPerHour}" />
         </label>
         <div>Messages envoyés aujourd'hui : <strong>${status.dailyUsage}</strong> / 14 400</div>
+        <div style="font-size: 0.8rem; color: var(--text-dim);">
+          Ce compteur et les limites repartent à zéro si le service redémarre (ex: réveil après
+          une pause sur le plan gratuit).
+        </div>
         <button id="save-btn">Enregistrer</button>
         <button id="logout-btn">Se déconnecter</button>
         <div id="admin-message"></div>

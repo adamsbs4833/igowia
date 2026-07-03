@@ -13,6 +13,7 @@
   const inputEl = document.getElementById('chat-input');
 
   const history = [];
+  let requestInFlight = false;
 
   function addMessage(role, content) {
     const el = document.createElement('div');
@@ -39,6 +40,8 @@
 
   formEl.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (requestInFlight) return;
+
     const text = inputEl.value.trim();
     if (!text) return;
 
@@ -47,6 +50,7 @@
     inputEl.value = '';
 
     const typingEl = showTyping();
+    requestInFlight = true;
 
     try {
       const res = await fetch('/api/chat', {
@@ -73,6 +77,8 @@
     } catch (err) {
       typingEl.remove();
       addMessage('error', "Impossible de contacter Igow'Ia. Vérifie ta connexion.");
+    } finally {
+      requestInFlight = false;
     }
   });
 })();

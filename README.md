@@ -30,6 +30,13 @@ npm start
 
 ## Déployer gratuitement sur Render
 
+**Note sur `package-lock.json` :** ce dépôt ne contient pas de `package-lock.json` car
+l'environnement de développement utilisé ne disposait que de Bun (pas de npm). Avant ton premier
+déploiement, il est recommandé de lancer `npm install` une fois sur une machine avec Node.js/npm
+installés, puis de committer le `package-lock.json` généré pour des builds reproductibles. Sans
+ça, `npm install` fonctionnera quand même sur Render (il résout des versions compatibles à chaque
+build), mais les versions ne sont pas figées.
+
 1. Pousse ce projet sur un dépôt GitHub.
 2. Crée un compte gratuit sur https://render.com.
 3. Clique sur "New" → "Blueprint", puis sélectionne ton dépôt (Render détecte `render.yaml`
@@ -48,3 +55,7 @@ réveille.
 
 Le modèle Llama 3.1 8B autorise jusqu'à 14 400 messages par jour, tous visiteurs confondus. Le
 nombre de messages du jour est visible dans le panel `/admin`.
+
+À noter : ce compteur et les limites de débit par visiteur sont stockés en mémoire et repartent
+donc à zéro si le service redémarre (par exemple lors du réveil après une pause d'inactivité sur
+le plan gratuit de Render).
