@@ -5,6 +5,9 @@ const SESSION_DURATION_MS = 2 * 60 * 60 * 1000;
 const LOGIN_MAX_ATTEMPTS = 5;
 const LOGIN_BLOCK_DURATION_MS = 15 * 60 * 1000;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+const MAX_HISTORY_DAYS = 7;
+const DEFAULT_WELCOME_MESSAGE =
+  "Salut ! Je suis Igow'Ia, ton assistant IA généraliste avec une expertise Discord. Pose-moi une question !";
 
 function todayString() {
   return new Date().toISOString().slice(0, 10);
@@ -16,6 +19,9 @@ const state = {
   rateLimit: { maxPerHour: 30, visitors: new Map() },
   adminSessions: new Map(),
   loginAttempts: new Map(),
+  welcomeMessage: DEFAULT_WELCOME_MESSAGE,
+  personalityNote: '',
+  usageHistory: [],
 };
 
 function isMaintenanceActive() {
@@ -36,6 +42,10 @@ function setMaintenance(active, message) {
 function rolloverDailyUsageIfNeeded() {
   const today = todayString();
   if (state.dailyUsage.date !== today) {
+    state.usageHistory.push({ date: state.dailyUsage.date, count: state.dailyUsage.count });
+    if (state.usageHistory.length > MAX_HISTORY_DAYS) {
+      state.usageHistory.shift();
+    }
     state.dailyUsage.date = today;
     state.dailyUsage.count = 0;
   }
@@ -66,10 +76,10 @@ function checkAndIncrementRateLimit(ip) {
     state.rateLimit.visitors.set(ip, { count: 1, windowStart: now });
     return true;
   }
-  if (entry.count >= state.rateLimit.maxPerHour) {
+  entry.count += 1;
+  if (entry.count > state.rateLimit.maxPerHour) {
     return false;
   }
-  entry.count += 1;
   return true;
 }
 
@@ -113,6 +123,62 @@ function resetFailedLogin(ip) {
   state.loginAttempts.delete(ip);
 }
 
+function getWelcomeMessage() {
+  return state.welcomeMessage;
+}
+
+function setWelcomeMessage(message) {
+  if (typeof message === 'string' && message.trim().length > 0) {
+    state.welcomeMessage = message;
+  }
+}
+
+function getPersonalityNote() {
+  return state.personalityNote;
+}
+
+function setPersonalityNote(note) {
+  if (typeof note === 'string') {
+    state.personalityNote = note;
+  }
+}
+
+function getUsageHistory() {
+  rolloverDailyUsageIfNeeded();
+  const withToday = [...state.usageHistory, { date: state.dailyUsage.date, count: state.dailyUsage.count }];
+  return withToday.slice(-MAX_HISTORY_DAYS);
+}
+
+function listRateLimitedIps() {
+  const now = Date.now();
+  const result = [];
+  for (const [ip, entry] of state.rateLimit.visitors.entries()) {
+    if (now - entry.windowStart <= RATE_LIMIT_WINDOW_MS && entry.count > state.rateLimit.maxPerHour) {
+      result.push({ ip, count: entry.count });
+    }
+  }
+  return result;
+}
+
+function unblockRateLimit(ip) {
+  state.rateLimit.visitors.delete(ip);
+}
+
+function listLoginBlockedIps() {
+  const now = Date.now();
+  const result = [];
+  for (const [ip, entry] of state.loginAttempts.entries()) {
+    if (entry.blockedUntil && now < entry.blockedUntil) {
+      result.push({ ip, blockedUntil: entry.blockedUntil });
+    }
+  }
+  return result;
+}
+
+function unblockLogin(ip) {
+  state.loginAttempts.delete(ip);
+}
+
 module.exports = {
   isMaintenanceActive,
   getMaintenanceMessage,
@@ -128,4 +194,13 @@ module.exports = {
   isLoginBlocked,
   recordFailedLogin,
   resetFailedLogin,
+  getWelcomeMessage,
+  setWelcomeMessage,
+  getPersonalityNote,
+  setPersonalityNote,
+  getUsageHistory,
+  listRateLimitedIps,
+  unblockRateLimit,
+  listLoginBlockedIps,
+  unblockLogin,
 };
