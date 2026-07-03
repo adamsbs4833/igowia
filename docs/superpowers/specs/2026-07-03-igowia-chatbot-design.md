@@ -46,18 +46,20 @@ Groq.
 
 ## Identité visuelle
 
-- **Nom** : Igow'Ia, affiché en typographie avec effet néon/dégradé (violet → bleu)
-- **Icône** : petit symbole SVG abstrait (bulle de dialogue stylisée avec une étincelle),
-  affiché à côté du nom
-- **Thème** : sombre, dégradés violet/bleu néon, effets de lueur (glow) sur les éléments clés
-  (logo, bouton d'envoi, bulles de réponse du bot)
+- **Logo** : image fournie par l'utilisateur (`public/assets/logo.png`) — monogramme "IA" doré
+  dans un double cercle fin, orné d'un losange, avec "IGOW" en dessous, sur fond noir. Utilisé
+  tel quel dans l'en-tête du chat et de la page admin (remplace l'icône SVG initialement
+  prévue).
+- **Thème** : sombre élégant noir/or, en cohérence avec le logo — accent doré (`#c9a24b`
+  environ) à la place du dégradé violet/bleu prévu initialement, effets de lueur dorée douce
+  sur les éléments clés (logo, bouton d'envoi, bulles de réponse du bot)
 
 ## Animations
 
-- Fond avec dégradé animé subtil, mouvement lent façon "aurore"
+- Fond avec dégradé animé subtil (nuances de noir), mouvement lent façon "aurore"
 - Apparition en fondu/glissement des bulles de message (envoyées et reçues)
-- Indicateur de frappe animé (points pulsants) pendant qu'Igow'Ia génère sa réponse
-- Lueur pulsante douce sur le logo/nom
+- Indicateur de frappe animé (points pulsants dorés) pendant qu'Igow'Ia génère sa réponse
+- Lueur dorée pulsante douce autour du logo
 - Micro-interactions au survol/clic sur les boutons
 
 ## Panel admin (`/admin`)
