@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: igowia
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: ADMIN_CODE
+        sync: false
+      - key: NODE_ENV
+        value: production
