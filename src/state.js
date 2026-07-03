@@ -76,10 +76,10 @@ function checkAndIncrementRateLimit(ip) {
     state.rateLimit.visitors.set(ip, { count: 1, windowStart: now });
     return true;
   }
-  entry.count += 1;
-  if (entry.count > state.rateLimit.maxPerHour) {
+  if (entry.count >= state.rateLimit.maxPerHour) {
     return false;
   }
+  entry.count += 1;
   return true;
 }
 
@@ -153,7 +153,7 @@ function listRateLimitedIps() {
   const now = Date.now();
   const result = [];
   for (const [ip, entry] of state.rateLimit.visitors.entries()) {
-    if (now - entry.windowStart <= RATE_LIMIT_WINDOW_MS && entry.count > state.rateLimit.maxPerHour) {
+    if (now - entry.windowStart <= RATE_LIMIT_WINDOW_MS && entry.count >= state.rateLimit.maxPerHour) {
       result.push({ ip, count: entry.count });
     }
   }
