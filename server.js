@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const chatRouter = require('./src/routes/chat');
+const adminRouter = require('./src/routes/admin');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/chat', chatRouter);
+app.use('/api/admin', adminRouter);
 
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
