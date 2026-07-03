@@ -68,6 +68,8 @@ Accès protégé par un code secret (pas de nom d'utilisateur, juste un code).
   serveur à `ADMIN_CODE` (stocké dans `.env`). Il n'est jamais renvoyé par l'API, jamais loggé,
   jamais visible dans le HTML/JS envoyé au navigateur. Une session admin simple (cookie signé
   ou token en mémoire serveur) évite de renvoyer le code à chaque action une fois connecté.
+  Protection anti-brute-force : blocage temporaire après plusieurs tentatives échouées
+  consécutives depuis une même IP.
 - **Activer/Désactiver la maintenance** : bouton toggle. Quand actif, `POST /api/chat` renvoie
   directement le message de maintenance sans appeler Groq, et le frontend désactive le champ de
   saisie en affichant ce message à la place du chat.
