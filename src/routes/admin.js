@@ -52,4 +52,20 @@ router.get('/status', requireAdminSession, (req, res) => {
   });
 });
 
+router.post('/maintenance', requireAdminSession, (req, res) => {
+  const { active, message } = req.body;
+  state.setMaintenance(Boolean(active), typeof message === 'string' ? message : undefined);
+  res.json({ ok: true });
+});
+
+router.post('/rate-limit', requireAdminSession, (req, res) => {
+  const { maxPerHour } = req.body;
+  const parsed = parseInt(maxPerHour, 10);
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    return res.status(400).json({ error: 'invalid_value' });
+  }
+  state.setRateLimitMax(parsed);
+  res.json({ ok: true });
+});
+
 module.exports = router;
