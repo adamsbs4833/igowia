@@ -116,7 +116,7 @@ app.listen(PORT, () => {
 
 - [ ] **Step 6: Verify the server starts and serves the placeholder page**
 
-Run: `node server.js &` then `curl -s http://localhost:3000/` then stop the server (`kill %1` or Ctrl+C)
+Run: `bun server.js &` then `curl -s http://localhost:3000/` then stop the server (`kill %1` or Ctrl+C)
 Expected: console prints `Igow'Ia lancé sur http://localhost:3000`, and the curl output contains
 `<h1>Igow'Ia arrive bientôt</h1>`.
 
@@ -455,7 +455,7 @@ app.use('/api/chat', chatRouter);
 
 - [ ] **Step 3: Verify end to end**
 
-Run: `node server.js &`
+Run: `bun server.js &`
 Run:
 ```bash
 curl -s -X POST http://localhost:3000/api/chat \
@@ -570,7 +570,7 @@ app.use('/api/admin', adminRouter);
 
 - [ ] **Step 3: Verify login, status, and wrong-code rejection**
 
-Run: `node server.js &`
+Run: `bun server.js &`
 Run (replace `789545` with the real value if it differs — check `.env`):
 ```bash
 curl -s -c cookies.txt -X POST http://localhost:3000/api/admin/login \
@@ -632,7 +632,7 @@ router.post('/rate-limit', requireAdminSession, (req, res) => {
 
 - [ ] **Step 2: Verify maintenance mode blocks the chat route**
 
-Run: `node server.js &`
+Run: `bun server.js &`
 Run:
 ```bash
 curl -s -c cookies.txt -X POST http://localhost:3000/api/admin/login \
@@ -660,29 +660,31 @@ git commit -m "Add admin maintenance toggle and rate-limit setting routes"
 
 ---
 
-### Task 7: Shared dark-neon design system and page shell
+### Task 7: Shared gold/black design system and page shell
 
 **Files:**
 - Create: `public/css/style.css`
 - Modify: `public/index.html` (replace placeholder with the real header/shell)
 
 **Interfaces:**
-- Produces: CSS custom properties (`--bg`, `--accent-violet`, `--accent-blue`, `--text`,
-  `--glow`) and utility classes (`.glow-text`, `.card`) reused by Task 8 (`chat.css`) and
-  Task 9 (`admin.css`); an `.igowia-logo` header block (SVG icon + name) reused verbatim by
+- Consumes: `public/assets/logo.png` (already present in the repo — the user's provided logo
+  image, black background with a gold "IA"/"IGOW" monogram).
+- Produces: CSS custom properties (`--bg`, `--accent-gold`, `--accent-gold-light`, `--text`,
+  `--glow`) and utility classes (`.card`) reused by Task 8 (`chat.css`) and Task 9
+  (`admin.css`); an `.igowia-logo` header block (`<img>` of the logo) reused verbatim by
   `public/admin.html` in Task 9.
 
 - [ ] **Step 1: Create `public/css/style.css`**
 
 ```css
 :root {
-  --bg: #0b0b16;
-  --bg-alt: #14142b;
-  --accent-violet: #8b5cf6;
-  --accent-blue: #3b82f6;
-  --text: #e6e6f0;
-  --text-dim: #9797b3;
-  --glow: 0 0 16px rgba(139, 92, 246, 0.55);
+  --bg: #0a0a0a;
+  --bg-alt: #1a1508;
+  --accent-gold: #c9a24b;
+  --accent-gold-light: #e8cf8a;
+  --text: #f0e6d2;
+  --text-dim: #a89f8a;
+  --glow: 0 0 16px rgba(201, 162, 75, 0.55);
 }
 
 * {
@@ -709,27 +711,19 @@ body {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 1.2rem;
+  padding: 1rem 1.2rem;
 }
 
-.igowia-logo svg {
-  width: 34px;
-  height: 34px;
+.igowia-logo img {
+  height: 72px;
+  width: auto;
+  border-radius: 6px;
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
-  0%, 100% { filter: drop-shadow(0 0 4px var(--accent-violet)); }
-  50% { filter: drop-shadow(0 0 12px var(--accent-blue)); }
-}
-
-.igowia-logo span {
-  font-size: 1.5rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, var(--accent-violet), var(--accent-blue));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  0%, 100% { filter: drop-shadow(0 0 4px var(--accent-gold)); }
+  50% { filter: drop-shadow(0 0 14px var(--accent-gold-light)); }
 }
 
 .card {
@@ -743,8 +737,8 @@ button {
   border: none;
   border-radius: 8px;
   padding: 0.6rem 1.2rem;
-  background: linear-gradient(90deg, var(--accent-violet), var(--accent-blue));
-  color: white;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light));
+  color: #1a1508;
   font-weight: 600;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -773,17 +767,7 @@ button:active {
 </head>
 <body>
   <header class="igowia-logo">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M4 4h16v11H8l-4 4V4z" stroke="url(#g)" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M12 8.5l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z" fill="url(#g)"/>
-      <defs>
-        <linearGradient id="g" x1="0" y1="0" x2="24" y2="24">
-          <stop offset="0" stop-color="#8b5cf6"/>
-          <stop offset="1" stop-color="#3b82f6"/>
-        </linearGradient>
-      </defs>
-    </svg>
-    <span>Igow'Ia</span>
+    <img src="/assets/logo.png" alt="Igow'Ia" />
   </header>
 
   <main id="chat-root"></main>
@@ -795,19 +779,19 @@ button:active {
 
 - [ ] **Step 3: Verify visually**
 
-Run: `node server.js &`
+Run: `bun server.js &`
 Open `http://localhost:3000/` in a browser.
-Then: `kill %1`
-Expected: dark page with a slowly shifting gradient background, and "Igow'Ia" shown top-left in
-a violet-to-blue gradient text next to a small glowing speech-bubble icon. (`chat.css` doesn't
-exist yet — the browser will 404 on it silently and just apply `style.css`, which is fine at
-this stage.)
+Then: stop the server
+Expected: dark page with a slowly shifting near-black gradient background, and the provided
+gold/black Igow'Ia logo shown top-left with a soft pulsing gold glow. (`chat.css` doesn't exist
+yet — the browser will 404 on it silently and just apply `style.css`, which is fine at this
+stage.)
 
 - [ ] **Step 4: Commit**
 
 ```bash
 git add public/css/style.css public/index.html
-git commit -m "Add Igow'Ia dark-neon design system and page shell"
+git commit -m "Add Igow'Ia gold/black design system and page shell"
 ```
 
 ---
@@ -859,8 +843,8 @@ git commit -m "Add Igow'Ia dark-neon design system and page shell"
 
 .msg.user {
   align-self: flex-end;
-  background: linear-gradient(90deg, var(--accent-violet), var(--accent-blue));
-  color: white;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light));
+  color: #1a1508;
 }
 
 .msg.bot {
@@ -1006,12 +990,12 @@ git commit -m "Add Igow'Ia dark-neon design system and page shell"
 
 - [ ] **Step 3: Verify in a browser**
 
-Run: `node server.js &`
+Run: `bun server.js &`
 Open `http://localhost:3000/`, type a message (e.g. "Salut, tu es qui ?") and send it.
-Then: `kill %1`
-Expected: your message appears as a right-aligned violet/blue bubble, a pulsing typing
-indicator appears briefly, then Igow'Ia's real reply appears as a left-aligned bubble
-mentioning it's a general assistant with Discord expertise.
+Then: stop the server
+Expected: your message appears as a right-aligned gold bubble, a pulsing typing indicator
+appears briefly, then Igow'Ia's real reply appears as a left-aligned bubble mentioning it's a
+general assistant with Discord expertise.
 
 - [ ] **Step 4: Commit**
 
@@ -1099,17 +1083,7 @@ git commit -m "Add Igow'Ia chat frontend with typing indicator and animations"
 </head>
 <body>
   <header class="igowia-logo">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M4 4h16v11H8l-4 4V4z" stroke="url(#g)" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M12 8.5l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z" fill="url(#g)"/>
-      <defs>
-        <linearGradient id="g" x1="0" y1="0" x2="24" y2="24">
-          <stop offset="0" stop-color="#8b5cf6"/>
-          <stop offset="1" stop-color="#3b82f6"/>
-        </linearGradient>
-      </defs>
-    </svg>
-    <span>Igow'Ia — Admin</span>
+    <img src="/assets/logo.png" alt="Igow'Ia — Admin" />
   </header>
 
   <main id="admin-root"></main>
@@ -1221,7 +1195,7 @@ git commit -m "Add Igow'Ia chat frontend with typing indicator and animations"
 
 - [ ] **Step 4: Verify in a browser**
 
-Run: `node server.js &`
+Run: `bun server.js &`
 Open `http://localhost:3000/admin`. Enter the wrong code once, confirm an error message shows.
 Enter the real code from `.env`. Toggle maintenance on, change the message, save. Open
 `http://localhost:3000/` in another tab and confirm the chat is blocked with your custom
@@ -1344,7 +1318,7 @@ git commit -m "Add README and Render deployment config"
 
 - [ ] **Step 1: Fresh-start smoke test**
 
-Run: `node server.js &`
+Run: `bun server.js &`
 Run each in sequence, observing output:
 ```bash
 curl -s http://localhost:3000/ | grep -o "Igow'Ia"
