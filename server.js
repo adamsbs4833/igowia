@@ -10,6 +10,9 @@ app.set('trust proxy', 1);
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
 app.use('/api/chat', chatRouter);
 app.use('/api/admin', adminRouter);
 
