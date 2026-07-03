@@ -1,0 +1,74 @@
+:root {
+  --bg: #0a0a0a;
+  --bg-alt: #1a1508;
+  --accent-gold: #c9a24b;
+  --accent-gold-light: #e8cf8a;
+  --text: #f0e6d2;
+  --text-dim: #a89f8a;
+  --glow: 0 0 16px rgba(201, 162, 75, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: var(--text);
+  background: linear-gradient(120deg, var(--bg), var(--bg-alt), var(--bg));
+  background-size: 200% 200%;
+  animation: aurora 18s ease infinite;
+}
+
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.igowia-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 1.2rem;
+}
+
+.igowia-logo img {
+  height: 72px;
+  width: auto;
+  border-radius: 6px;
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px var(--accent-gold)); }
+  50% { filter: drop-shadow(0 0 14px var(--accent-gold-light)); }
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light));
+  color: #1a1508;
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--glow);
+}
+
+button:active {
+  transform: translateY(0);
+}
