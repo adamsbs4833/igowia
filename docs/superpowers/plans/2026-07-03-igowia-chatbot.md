@@ -571,10 +571,11 @@ app.use('/api/admin', adminRouter);
 - [ ] **Step 3: Verify login, status, and wrong-code rejection**
 
 Run: `bun server.js &`
-Run (replace `789545` with the real value if it differs — check `.env`):
+Run (substitute the real value of `ADMIN_CODE` from `.env` — never write the actual code into
+this plan file or any committed document):
 ```bash
 curl -s -c cookies.txt -X POST http://localhost:3000/api/admin/login \
-  -H "Content-Type: application/json" -d '{"code":"789545"}'
+  -H "Content-Type: application/json" -d '{"code":"<ADMIN_CODE_from_.env>"}'
 echo
 curl -s -b cookies.txt http://localhost:3000/api/admin/status
 echo
@@ -636,7 +637,7 @@ Run: `bun server.js &`
 Run:
 ```bash
 curl -s -c cookies.txt -X POST http://localhost:3000/api/admin/login \
-  -H "Content-Type: application/json" -d '{"code":"789545"}' > /dev/null
+  -H "Content-Type: application/json" -d '{"code":"<ADMIN_CODE_from_.env>"}' > /dev/null
 curl -s -b cookies.txt -X POST http://localhost:3000/api/admin/maintenance \
   -H "Content-Type: application/json" -d '{"active":true,"message":"Test maintenance en cours"}'
 echo
@@ -1334,7 +1335,7 @@ roles.
 Run:
 ```bash
 curl -s -c cookies.txt -X POST http://localhost:3000/api/admin/login \
-  -H "Content-Type: application/json" -d '{"code":"789545"}' > /dev/null
+  -H "Content-Type: application/json" -d '{"code":"<ADMIN_CODE_from_.env>"}' > /dev/null
 curl -s -b cookies.txt -X POST http://localhost:3000/api/admin/rate-limit \
   -H "Content-Type: application/json" -d '{"maxPerHour":1}'
 curl -s -X POST http://localhost:3000/api/chat -H "Content-Type: application/json" \
@@ -1357,7 +1358,7 @@ for i in 1 2 3 4 5; do
 done
 echo
 curl -s -X POST http://localhost:3000/api/admin/login \
-  -H "Content-Type: application/json" -d '{"code":"789545"}'
+  -H "Content-Type: application/json" -d '{"code":"<ADMIN_CODE_from_.env>"}'
 ```
 Expected: the five failed attempts print `401` each; the sixth call (correct code) is now
 blocked and returns `{"error":"blocked","message":"Trop de tentatives, réessaie plus tard."}`
