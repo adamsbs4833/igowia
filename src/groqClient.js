@@ -11,10 +11,14 @@ function createGroqClient() {
   return new Groq({ apiKey: process.env.GROQ_API_KEY });
 }
 
-async function getChatReply(history) {
+async function getChatReply(history, personalityNote) {
   const groq = createGroqClient();
+  const systemContent =
+    typeof personalityNote === 'string' && personalityNote.trim().length > 0
+      ? `${SYSTEM_PROMPT}\n\n${personalityNote}`
+      : SYSTEM_PROMPT;
   const messages = [
-    { role: 'system', content: SYSTEM_PROMPT },
+    { role: 'system', content: systemContent },
     ...history.map((m) => ({ role: m.role, content: m.content })),
   ];
   const completion = await groq.chat.completions.create({

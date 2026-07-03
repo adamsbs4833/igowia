@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const reply = await getChatReply(history);
+    const reply = await getChatReply(history, state.getPersonalityNote());
     state.incrementDailyUsage();
     res.json({ reply });
   } catch (err) {
