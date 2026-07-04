@@ -44,3 +44,60 @@
 
 #admin-message.error { color: #ffb4b4; }
 #admin-message.success { color: #9ef0b0; }
+
+.usage-graph {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 80px;
+  padding: 0.5rem 0;
+}
+
+.usage-graph .bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 0.3rem;
+}
+
+.usage-graph .bar {
+  width: 100%;
+  background: linear-gradient(180deg, var(--accent-gold-light), var(--accent-gold));
+  border-radius: 4px 4px 0 0;
+  min-height: 2px;
+}
+
+.usage-graph .bar-label {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+
+.blocked-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.blocked-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+}
+
+.blocked-row button {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+}
+
+.section-title {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin: 0.5rem 0 0.2rem;
+}
