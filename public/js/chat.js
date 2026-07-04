@@ -193,9 +193,11 @@
       if (window.igowiaSounds) window.igowiaSounds.playReceive();
       const { wrapper, bubble } = addBotMessageShell();
       typeWriterReveal(bubble, data.reply, () => {
-        bubble.innerHTML = window.igowiaRenderMarkdown
-          ? window.igowiaRenderMarkdown(data.reply)
-          : bubble.textContent;
+        if (window.igowiaRenderMarkdown) {
+          bubble.innerHTML = window.igowiaRenderMarkdown(data.reply);
+        } else {
+          bubble.textContent = data.reply;
+        }
         addCopyButton(wrapper, data.reply);
       });
       history.push({ role: 'assistant', content: data.reply });
