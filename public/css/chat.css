@@ -92,3 +92,97 @@
 #chat-input:disabled {
   opacity: 0.5;
 }
+
+#chat-header-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 1rem;
+}
+
+#clear-chat-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.8rem;
+}
+
+#clear-chat-btn:hover {
+  box-shadow: none;
+  border-color: var(--accent-gold);
+  color: var(--accent-gold-light);
+}
+
+#welcome-screen {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-dim);
+}
+
+#suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.suggestion-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-weight: 400;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.9rem;
+}
+
+.suggestion-btn:hover {
+  box-shadow: var(--glow);
+  border-color: var(--accent-gold);
+}
+
+.msg-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 75%;
+}
+
+.msg-wrapper.user {
+  align-self: flex-end;
+}
+
+.msg-wrapper.bot {
+  align-self: flex-start;
+}
+
+.msg-wrapper .msg {
+  max-width: 100%;
+}
+
+.copy-btn {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.copy-btn:hover {
+  box-shadow: none;
+  color: var(--accent-gold-light);
+}
+
+.msg pre {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  padding: 0.7rem;
+  overflow-x: auto;
+  margin: 0.4rem 0;
+}
+
+.msg code {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.9em;
+}
