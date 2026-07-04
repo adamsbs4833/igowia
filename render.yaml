@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: igowia
+    name: igowia-chat
     env: node
     plan: free
     buildCommand: npm install
