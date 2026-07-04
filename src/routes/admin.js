@@ -81,4 +81,27 @@ router.post('/content', requireAdminSession, (req, res) => {
   res.json({ ok: true });
 });
 
+router.get('/usage-history', requireAdminSession, (req, res) => {
+  res.json({ history: state.getUsageHistory() });
+});
+
+router.get('/blocked', requireAdminSession, (req, res) => {
+  res.json({
+    rateLimited: state.listRateLimitedIps(),
+    loginBlocked: state.listLoginBlockedIps(),
+  });
+});
+
+router.post('/unblock', requireAdminSession, (req, res) => {
+  const { type, ip } = req.body;
+  if (type === 'rate-limit') {
+    state.unblockRateLimit(ip);
+  } else if (type === 'login') {
+    state.unblockLogin(ip);
+  } else {
+    return res.status(400).json({ error: 'invalid_type' });
+  }
+  res.json({ ok: true });
+});
+
 module.exports = router;
