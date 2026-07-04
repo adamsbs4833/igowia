@@ -48,8 +48,8 @@
     const rateRows = rateLimited
       .map(
         (r) => `
-        <div class="blocked-row" data-type="rate-limit" data-ip="${r.ip}">
-          <span>${r.ip} (${r.count} messages)</span>
+        <div class="blocked-row" data-type="rate-limit" data-ip="${escapeHtml(r.ip)}">
+          <span>${escapeHtml(r.ip)} (${escapeHtml(String(r.count))} messages)</span>
           <button type="button" class="unblock-btn">Débloquer</button>
         </div>
       `
@@ -59,8 +59,8 @@
     const loginRows = loginBlocked
       .map(
         (l) => `
-        <div class="blocked-row" data-type="login" data-ip="${l.ip}">
-          <span>${l.ip}</span>
+        <div class="blocked-row" data-type="login" data-ip="${escapeHtml(l.ip)}">
+          <span>${escapeHtml(l.ip)}</span>
           <button type="button" class="unblock-btn">Débloquer</button>
         </div>
       `
