@@ -1,8 +1,17 @@
 (function () {
+  let audioContext = null;
+
+  function getAudioContext() {
+    if (!audioContext) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      audioContext = new AudioCtx();
+    }
+    return audioContext;
+  }
+
   function beep(freq, duration) {
     try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      const ctx = new AudioCtx();
+      const ctx = getAudioContext();
       const oscillator = ctx.createOscillator();
       const gain = ctx.createGain();
       oscillator.type = 'sine';
