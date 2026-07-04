@@ -49,6 +49,8 @@ router.get('/status', requireAdminSession, (req, res) => {
     maintenanceMessage: state.getMaintenanceMessage(),
     maxPerHour: state.getRateLimitMax(),
     dailyUsage: state.getDailyUsage(),
+    welcomeMessage: state.getWelcomeMessage(),
+    personalityNote: state.getPersonalityNote(),
   });
 });
 
@@ -65,6 +67,17 @@ router.post('/rate-limit', requireAdminSession, (req, res) => {
     return res.status(400).json({ error: 'invalid_value' });
   }
   state.setRateLimitMax(parsed);
+  res.json({ ok: true });
+});
+
+router.post('/content', requireAdminSession, (req, res) => {
+  const { welcomeMessage, personalityNote } = req.body;
+  if (typeof welcomeMessage === 'string') {
+    state.setWelcomeMessage(welcomeMessage);
+  }
+  if (typeof personalityNote === 'string') {
+    state.setPersonalityNote(personalityNote);
+  }
   res.json({ ok: true });
 });
 
