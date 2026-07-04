@@ -16,7 +16,7 @@
       const index = codeBlocks.length;
       const cleaned = code.replace(/^\n/, '').replace(/\n$/, '');
       codeBlocks.push(`<pre><code>${cleaned}</code></pre>`);
-      return `@@CODEBLOCK${index}@@`;
+      return `<<<CODEBLOCK${index}>>>`;
     });
 
     result = result.replace(/`([^`\n]+)`/g, '<code>$1</code>');
@@ -24,7 +24,7 @@
     result = result.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
     result = result.replace(/\n/g, '<br>');
 
-    result = result.replace(/@@CODEBLOCK(\d+)@@/g, (match, idx) => codeBlocks[Number(idx)]);
+    result = result.replace(/<<<CODEBLOCK(\d+)>>>/g, (match, idx) => codeBlocks[Number(idx)]);
 
     return result;
   }
